@@ -51,6 +51,13 @@ func processAllRequest(w http.ResponseWriter, r *http.Request){
 	data, err := ioutil.ReadAll(r.Body)
 	log.Printf("Request Body is: %v\n", r.Body)
 	
+	// 如果请求 body 为空，直接返回响应
+	if len(data) == 0 {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("请求 body 为空"))
+		return
+	}
+	
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
