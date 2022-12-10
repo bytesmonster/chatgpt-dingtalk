@@ -21,22 +21,14 @@ func init() {
 func main() {
 	// 定义一个处理器函数
 	handler := func(w http.ResponseWriter, r *http.Request) {
-		data, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
+		
+		if r.Method == http.MethodPost {
+		    processAllRequest(w, r)
 		}
-		// TODO: 校验请求
-		// fmt.Println(r.Header)
 
-		var msgObj = new(public.ReceiveMsg)
-		err = json.Unmarshal(data, &msgObj)
-		if err != nil {
-			log.Printf("unmarshal request body failed: %v\n", err)
-		}
-		err = ProcessRequest(*msgObj)
-		if err != nil {
-			log.Printf("process request failed: %v\n", err)
+		// 处理 GET 请求
+		if r.Method == http.MethodGet {
+		    processAllRequest(w, r)
 		}
 
 	}
@@ -52,6 +44,26 @@ func main() {
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+func processAllRequest(w http.ResponseWriter, r *http.Request)
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	// TODO: 校验请求
+	// fmt.Println(r.Header)
+
+	var msgObj = new(public.ReceiveMsg)
+	err = json.Unmarshal(data, &msgObj)
+	if err != nil {
+		log.Printf("unmarshal request body failed: %v\n", err)
+	}
+	err = ProcessRequest(*msgObj)
+	if err != nil {
+		log.Printf("process request failed: %v\n", err)
 	}
 }
 
