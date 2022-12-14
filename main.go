@@ -53,7 +53,6 @@ func Start() {
 
 func processAllRequest(w http.ResponseWriter, r *http.Request){
 	data, err := ioutil.ReadAll(r.Body)
-	logger.Printf("Request Body is: %v\n", r.Body)
 	
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
