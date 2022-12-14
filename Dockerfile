@@ -7,7 +7,7 @@ ADD . /app/
 WORKDIR /app
 RUN go build -o chatgpt-dingtalk .
 
-FROM centos:centos8
+FROM centos:centos7
 RUN mkdir /app
 WORKDIR /app
 COPY --from=builder /app/ .
